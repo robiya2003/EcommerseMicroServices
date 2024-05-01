@@ -1,17 +1,19 @@
-using Catalog.Application;
-using Catalog.Infastructure;
+using Ocelot.DependencyInjection;
+using Ocelot.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddCatalogDependencyInjection();
-builder.Services.AddCatalogInfastructureDependencyInjection(builder.Configuration);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)
+        .AddJsonFile("Ocelot.json", optional: false, reloadOnChange: true);
 
+
+builder.Services.AddOcelot();
 
 var app = builder.Build();
 
@@ -27,5 +29,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+app.UseOcelot().Wait();
 
 app.Run();

@@ -22,9 +22,4 @@
     <ProjectReference Include="..\Catalog.Domain\Catalog.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="UseCases\CatalogsCases\Handlers\QueryHandler\" />
-    <Folder Include="UseCases\CatalogsCases\Queries\" />
-  </ItemGroup>
-
 </Project>
