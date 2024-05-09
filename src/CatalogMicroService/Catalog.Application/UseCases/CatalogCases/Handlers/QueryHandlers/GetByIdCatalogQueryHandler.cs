@@ -1,8 +1,9 @@
-﻿using Catalog.Application.Abstractiions;
+﻿
+using Catalog.Application.Abstractions;
 using Catalog.Application.UseCases.CatalogCases.Commands;
 using Catalog.Application.UseCases.CatalogCases.Queries;
 using Catalog.Domain;
-using Catalog.Domain.Entities;
+using Catalog.Domain.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Catalog.Application.UseCases.CatalogCases.Handlers.QueryHandlers
 {
-    public class GetByIdCatalogQueryHandler : IRequestHandler<GetByIdCatalogQuery, ProductCatalog>
+    public class GetByIdCatalogQueryHandler : IRequestHandler<GetByIdCatalogQuery, CatalogModel>
     {
         private readonly ICatalogDbContext _context;
         private readonly IMediator _mediator;
@@ -23,9 +24,9 @@ namespace Catalog.Application.UseCases.CatalogCases.Handlers.QueryHandlers
             _mediator = mediator;
         }
 
-        public async Task<ProductCatalog> Handle(GetByIdCatalogQuery request, CancellationToken cancellationToken)
+        public async Task<CatalogModel> Handle(GetByIdCatalogQuery request, CancellationToken cancellationToken)
         {
-            var catalog = await _context.Catalogs.FirstOrDefaultAsync(x => x.Id == request.Id);
+            var catalog = await _context.catalogModels.FirstOrDefaultAsync(x => x.Id == request.Id);
 
             return catalog;
         }

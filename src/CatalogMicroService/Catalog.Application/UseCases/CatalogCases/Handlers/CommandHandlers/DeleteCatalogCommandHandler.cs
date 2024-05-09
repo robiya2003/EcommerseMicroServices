@@ -1,6 +1,8 @@
-﻿using Catalog.Application.Abstractiions;
+﻿
+using Catalog.Application.Abstractions;
 using Catalog.Application.UseCases.CatalogCases.Commands;
-using Catalog.Domain.Entities;
+
+using Catalog.Domain.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -24,17 +26,17 @@ namespace Catalog.Application.UseCases.CatalogCases.Handlers.CommandHandlers
 
         public async Task<ResponseModel> Handle(DeleteCatalogCommand request, CancellationToken cancellationToken)
         {
-            var catalog = await _context.Catalogs.FirstOrDefaultAsync(x => x.Id == request.Id);
+            var catalog = await _context.catalogModels.FirstOrDefaultAsync(x => x.Id == request.Id);
             if (catalog != null)
             {
-                _context.Catalogs.Remove(catalog);
+                _context.catalogModels.Remove(catalog);
                 await _context.SaveChangesAsync(cancellationToken);
 
                 return new ResponseModel
                 {
                     StatusCode = 201,
                     Message = $"{request.Id} => Catalog Deleted",
-                    isSucces = true
+                    IsSuccess = true
                 };
             }
 

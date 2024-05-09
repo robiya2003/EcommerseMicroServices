@@ -11,6 +11,8 @@ namespace Catalog.Application.Abstractions
     public interface ICatalogDbContext
     {
         public DbSet<CatalogModel> catalogModels { get; set; }
+        
+
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

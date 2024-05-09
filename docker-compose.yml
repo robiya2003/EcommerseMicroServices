@@ -1,0 +1,104 @@
+version: '3.4'
+
+services:
+
+  db:
+    container_name: db
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=dfrt43i0
+      - POSTGRES_DB=ShoppingMicroService
+    volumes:
+      - pgdata:/var/lib/postgresql/BlDB
+    ports:
+      - "5432:5432"
+    networks:
+      - db-network
+
+  db1:
+    container_name: db1
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=dfrt43i0
+      - POSTGRES_DB=CatalogMicroService
+    volumes:
+      - pgdata:/var/lib/postgresql/StDB
+    ports:
+      - "5432:5432"
+    networks:
+      - db-network
+
+  db2:
+    container_name: db2
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=dfrt43i0
+      - POSTGRES_DB=DiscountMicroService
+    volumes:
+      - pgdata:/var/lib/postgresql/CmDB
+    ports:
+      - "5432:5432"
+    networks:
+      - db-network
+
+  db3:
+    container_name: db3
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=dfrt43i0
+      - POSTGRES_DB=OrderingMicroService
+    volumes:
+      - pgdata:/var/lib/postgresql/PrDb
+    ports:
+      - "5432:5432"
+    networks:
+      - db-network
+
+
+
+
+  ordering.api:
+    image: ${DOCKER_REGISTRY-}orderingapi
+    build:
+      context: .
+      dockerfile: src/OrderingMicroService/Ordering.Api/Dockerfile
+
+  shoppingcart.api:
+    image: ${DOCKER_REGISTRY-}shoppingcartapi
+    build:
+      context: .
+      dockerfile: src/ShoppingCartMicroService/ShoppingCart.Api/Dockerfile
+
+  discount.api:
+    image: ${DOCKER_REGISTRY-}discountapi
+    build:
+      context: .
+      dockerfile: src/DiscountMicroService/Discount.Api/Dockerfile
+
+  catalog.api:
+    image: ${DOCKER_REGISTRY-}catalogapi
+    build:
+      context: .
+      dockerfile: src/CatalogMicroService/Catalog.Api/Dockerfile
+
+  apigetaway.api:
+    image: ${DOCKER_REGISTRY-}apigetawayapi
+    build:
+      context: .
+      dockerfile: src/ApiGetAway/ApiGetAway.Api/Dockerfile
+
+networks:
+  db-network:
+    driver: bridge
+
+volumes:
+  pgdata:
+
+
+
+
+
